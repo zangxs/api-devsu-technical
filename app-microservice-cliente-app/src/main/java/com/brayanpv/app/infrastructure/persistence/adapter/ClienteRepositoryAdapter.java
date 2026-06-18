@@ -28,7 +28,8 @@ public class ClienteRepositoryAdapter implements IClienteRepository {
 
     @Override
     public Optional<Cliente> findById(Long id) {
-        return Optional.empty();
+        Optional<ClienteEntity> clienteEntity = clienteJpaRepository.findById(id);
+        return clienteEntity.map(clienteMapper::toDomain);
     }
 
     @Override

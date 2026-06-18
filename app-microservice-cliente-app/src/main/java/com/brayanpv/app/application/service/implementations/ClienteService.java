@@ -4,6 +4,7 @@ import com.brayanpv.app.application.dto.request.ClienteRequestDTO;
 import com.brayanpv.app.application.dto.response.ClienteResponseDTO;
 import com.brayanpv.app.application.mapper.ClienteMapper;
 import com.brayanpv.app.application.service.contracts.IClienteService;
+import com.brayanpv.app.domain.exception.ClienteNotFoundException;
 import com.brayanpv.app.domain.exception.DuplicateIdentificationException;
 import com.brayanpv.app.domain.model.Cliente;
 import com.brayanpv.app.domain.repository.IClienteRepository;
@@ -50,6 +51,10 @@ public class ClienteService implements IClienteService {
 
     @Override
     public ClienteResponseDTO buscarClientePorId(Long id) {
-        return null;
+        log.info("Buscando cliente con id: {}", id);
+        Cliente cliente = clienteRepository.findById(id)
+                .orElseThrow(() -> new ClienteNotFoundException(
+                        "Cliente no encontrado con id: " + id));
+        return clienteMapper.toResponse(cliente);
     }
 }
