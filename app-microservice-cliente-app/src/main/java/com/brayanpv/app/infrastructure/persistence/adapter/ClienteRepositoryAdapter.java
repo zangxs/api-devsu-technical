@@ -1,6 +1,6 @@
 package com.brayanpv.app.infrastructure.persistence.adapter;
 
-import com.brayanpv.app.infrastructure.mapper.ClienteMapper;
+import com.brayanpv.app.infrastructure.mapper.ClienteEntityMapper;
 import com.brayanpv.app.domain.model.Cliente;
 import com.brayanpv.app.domain.repository.IClienteRepository;
 import com.brayanpv.app.infrastructure.persistence.entity.ClienteEntity;
@@ -16,7 +16,7 @@ import java.util.Optional;
 public class ClienteRepositoryAdapter implements IClienteRepository {
 
     private final IClienteJpaRepository clienteJpaRepository;
-    private final ClienteMapper clienteMapper;
+    private final ClienteEntityMapper clienteMapper;
 
     @Override
     public Cliente save(Cliente cliente) {
