@@ -25,6 +25,7 @@ public class ClienteService implements IClienteService {
     public ClienteResponseDTO crearCliente(ClienteRequestDTO clienteRequestDTO) {
         log.info("Creando Cliente");
         //buscar el cliente para que no se repita
+        log.info("Cliente RequestDTO: {}", clienteRequestDTO);
         if (clienteRepository.existsByIdentificacion(clienteRequestDTO.getIdentificacion())) {
             throw new DuplicateIdentificationException(
                     "Ya existe un cliente con identificacion: " + clienteRequestDTO.getIdentificacion()

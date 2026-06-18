@@ -48,6 +48,6 @@ public class ClienteRepositoryAdapter implements IClienteRepository {
 
     @Override
     public boolean existsByIdentificacion(String identificacion) {
-        return false;
+        return clienteJpaRepository.existsByIdentificacion(identificacion);
     }
 }
