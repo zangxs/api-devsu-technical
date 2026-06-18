@@ -19,7 +19,7 @@ public class ClienteEntityMapper {
                 .direccion(domain.getDireccion())
                 .telefono(domain.getTelefono())
                 .password(domain.getPassword())
-                .estado(domain.isEstado())
+                .estado(domain.getEstado())
                 .build();
     }
 
@@ -33,7 +33,7 @@ public class ClienteEntityMapper {
                 .direccion(entity.getDireccion())
                 .telefono(entity.getTelefono())
                 .password(entity.getPassword())
-                .estado(entity.isEstado())
+                .estado(entity.getEstado())
                 .build();
     }
 

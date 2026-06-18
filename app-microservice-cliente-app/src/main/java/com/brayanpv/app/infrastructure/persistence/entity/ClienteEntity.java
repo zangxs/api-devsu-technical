@@ -3,7 +3,6 @@ package com.brayanpv.app.infrastructure.persistence.entity;
 import com.brayanpv.app.domain.model.enums.Genero;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.Id;
 
 @Entity
 @Table(name = "clientes")
@@ -16,6 +15,7 @@ public class ClienteEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "cliente_id")
     private Long clienteId;
 
     @Column(nullable = false)
@@ -35,6 +35,6 @@ public class ClienteEntity {
     @Column(nullable = false)
     private String password;
 
-    private boolean estado;
+    private Boolean estado;
 
 }
