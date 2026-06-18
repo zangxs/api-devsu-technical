@@ -1,0 +1,32 @@
+package com.brayanpv.app.application.dto.request;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
+
+@Data
+public class ClienteRequestDTO {
+
+    @NotBlank(message = "El nombre es obligatorio")
+    private String nombre;
+
+    @NotNull(message = "El género es obligatorio")
+    private String genero;
+
+    @NotNull(message = "La edad es obligatoria")
+    private Integer edad;
+
+    @NotBlank(message = "La identificación es obligatoria")
+    @Size(min = 10, max = 10, message = "La identificación debe tener 10 dígitos")
+    private String identificacion;
+
+    private String direccion;
+    private String telefono;
+
+    @NotBlank(message = "La contraseña es obligatoria")
+    @Size(min = 4, message = "La contraseña debe tener al menos 8 caracteres")
+    private String password;
+
+    private Boolean estado;
+}

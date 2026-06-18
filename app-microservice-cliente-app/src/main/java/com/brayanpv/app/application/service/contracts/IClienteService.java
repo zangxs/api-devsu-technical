@@ -1,0 +1,12 @@
+package com.brayanpv.app.application.service.contracts;
+
+import com.brayanpv.app.application.dto.request.ClienteRequestDTO;
+import com.brayanpv.app.application.dto.response.ClienteResponseDTO;
+
+public interface IClienteService {
+
+    ClienteResponseDTO crearCliente(ClienteRequestDTO clienteRequestDTO);
+    ClienteResponseDTO actualizarCliente(ClienteRequestDTO clienteRequestDTO);
+    void eliminarCliente(Long id);
+    ClienteResponseDTO buscarClientePorId(Long id);
+}
