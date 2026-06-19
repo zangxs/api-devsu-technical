@@ -30,8 +30,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.Mockito.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -101,5 +100,33 @@ class ClienteControllerTest {
 
         verify(clienteService, times(1)).buscarClientePorId(1L);
 
+    }
+
+    @Test
+    void eliminarClienteOK() throws Exception  {
+        doNothing().when(clienteService).eliminarCliente(1L);
+
+        mockMvc.perform(delete("/api/clientes/{id}", 1L))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data").value(containsString("Cliente eliminado con exito")));
+
+        verify(clienteService, times(1)).eliminarCliente(1L);
+
+    }
+
+    @Test
+    void actualizarClienteOk() throws Exception {
+        ClienteRequestDTO clienteRequestDTO = gson.fromJson(JsonMocksConstants.ACTUALIZAR_CLIENTE_REQUEST, ClienteRequestDTO.class);
+        ClienteResponseDTO clienteResponseDTO = gson.fromJson(JsonMocksConstants.ACTUALIZAR_CLIENTE_RESPONSE, ClienteResponseDTO.class);
+        Mockito.when(clienteService.actualizarCliente(8L, clienteRequestDTO)).thenReturn(clienteResponseDTO);
+
+        mockMvc.perform(put("/api/clientes/{id}", 8)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(clienteRequestDTO)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.nombre").value(clienteRequestDTO.getNombre()))
+                .andExpect(jsonPath("$.data.identificacion").value(clienteRequestDTO.getIdentificacion()));
+
+        verify(clienteService, times(1)).actualizarCliente(8L, clienteRequestDTO);
     }
 }

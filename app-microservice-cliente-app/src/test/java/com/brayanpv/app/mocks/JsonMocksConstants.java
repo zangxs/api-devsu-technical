@@ -27,4 +27,30 @@ public class JsonMocksConstants {
               "estado": true
             }
             """;
+
+    public static String ACTUALIZAR_CLIENTE_REQUEST = """
+            {
+                   "nombre": "Stiven Palomino",
+                    "genero": "MASCULINO",
+                    "edad": 29,
+                    "identificacion": "0234567890",
+                    "direccion": "Calle 1 #2-3",
+                    "telefono": 3123825986,
+                    "clienteId": 8,
+                    "estado": true
+                }
+            """;
+
+    public static String ACTUALIZAR_CLIENTE_RESPONSE = """
+            {
+              "nombre": "Stiven Palomino",
+              "genero": MASCULINO,
+              "edad": 29,
+              "identificacion": "0234567890",
+              "direccion": "Calle 1 #2-3",
+              "telefono": "3123825986",
+              "clienteId": 8,
+              "estado": true
+            }
+            """;
 }

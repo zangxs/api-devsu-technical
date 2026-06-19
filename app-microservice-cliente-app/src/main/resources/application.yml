@@ -16,11 +16,11 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
 
-  #rabbitmq:
-  #  host: ${SPRING_RABBITMQ_HOST:localhost}
-  #  port: ${SPRING_RABBITMQ_PORT:5672}
-  #  username: ${SPRING_RABBITMQ_USERNAME:rabbit_user}
-  #  password: ${SPRING_RABBITMQ_PASSWORD:rabbit_pass}
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST:localhost}
+    port: ${SPRING_RABBITMQ_PORT:5672}
+    username: ${SPRING_RABBITMQ_USERNAME:rabbit_user}
+    password: ${SPRING_RABBITMQ_PASSWORD:rabbit_pass}
 
 server:
   port: 8080
