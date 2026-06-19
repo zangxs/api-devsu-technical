@@ -39,7 +39,8 @@ public class ClienteRepositoryAdapter implements IClienteRepository {
 
     @Override
     public List<Cliente> findAll() {
-        return List.of();
+        List<ClienteEntity> clienteEntities = clienteJpaRepository.findAll();
+        return clienteEntities.stream().map(clienteMapper::toDomain).toList();
     }
 
     @Override

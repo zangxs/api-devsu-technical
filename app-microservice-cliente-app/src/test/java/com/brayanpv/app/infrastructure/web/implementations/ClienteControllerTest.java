@@ -23,12 +23,15 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.Optional;
+
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.Mockito.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -83,6 +86,20 @@ class ClienteControllerTest {
                 .andExpect(jsonPath("$.data").value(containsString("Ya existe un cliente con identificacion")));
 
         verify(clienteService, times(1)).crearCliente(any(ClienteRequestDTO.class));
+
+    }
+
+    @Test
+    void getClienteOk() throws Exception {
+        ClienteResponseDTO clienteResponseDTO = gson.fromJson(JsonMocksConstants.CREAR_CLIENTE_RESPONSE, ClienteResponseDTO.class);
+
+        Mockito.when(clienteService.buscarClientePorId(1L)).thenReturn(clienteResponseDTO);
+        mockMvc.perform(get("/api/clientes/{id}", 1L))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nombre").value(clienteResponseDTO.getNombre()))
+                .andExpect(jsonPath("$.identificacion").value(clienteResponseDTO.getIdentificacion()));
+
+        verify(clienteService, times(1)).buscarClientePorId(1L);
 
     }
 }

@@ -5,11 +5,14 @@ import com.brayanpv.app.application.dto.response.ClienteResponseDTO;
 import com.brayanpv.app.domain.model.Cliente;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class ClienteMapper {
 
     public Cliente toDomain(ClienteRequestDTO clienteRequestDTO) {
 
+        //TODO corregir aca el genero
         return Cliente.builder()
                 .nombre(clienteRequestDTO.getNombre())
                 //.genero(clienteRequestDTO.getGenero())
@@ -32,6 +35,12 @@ public class ClienteMapper {
                 .telefono(cliente.getTelefono())
                 .estado(cliente.getEstado())
                 .build();
+    }
+
+    public List<ClienteResponseDTO> toResponseList(List<Cliente> clientes) {
+        return clientes.stream()
+                .map(this::toResponse)
+                .toList();
     }
 
 }

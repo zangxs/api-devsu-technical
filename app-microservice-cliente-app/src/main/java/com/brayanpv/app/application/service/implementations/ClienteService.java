@@ -13,6 +13,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Log4j2
 @AllArgsConstructor
@@ -56,5 +58,13 @@ public class ClienteService implements IClienteService {
                 .orElseThrow(() -> new ClienteNotFoundException(
                         "Cliente no encontrado con id: " + id));
         return clienteMapper.toResponse(cliente);
+    }
+
+    @Override
+    public List<ClienteResponseDTO> listarTodosClientes() {
+        log.info("Listando todos clientes");
+        List<Cliente> clientes = clienteRepository.findAll();
+        log.info("Todos clientes: {}", clientes);
+        return clienteMapper.toResponseList(clientes);
     }
 }

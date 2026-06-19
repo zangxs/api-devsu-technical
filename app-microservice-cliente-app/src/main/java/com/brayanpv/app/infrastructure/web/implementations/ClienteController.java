@@ -51,8 +51,10 @@ public class ClienteController implements IClienteController {
     }
 
     @Override
-    @GetMapping
+    @GetMapping("/getAll")
     public ResponseEntity<List<ClienteResponseDTO>> getAllClientes() {
-        return null;
+        log.info("Listando todos los clientes");
+        List<ClienteResponseDTO> clienteResponseDTOS = clienteService.listarTodosClientes();
+        return ResponseEntity.ok(clienteResponseDTOS);
     }
 }
