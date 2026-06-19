@@ -4,9 +4,9 @@ import com.brayanpv.app.application.dto.request.ClienteRequestDTO;
 import com.brayanpv.app.application.dto.response.ClienteResponseDTO;
 import com.brayanpv.app.application.mapper.ClienteMapper;
 import com.brayanpv.app.domain.exception.DuplicateIdentificationException;
+import com.brayanpv.app.domain.messaging.IEventPublisher;
 import com.brayanpv.app.domain.model.Cliente;
 import com.brayanpv.app.domain.repository.IClienteRepository;
-import com.brayanpv.app.infrastructure.messaging.publisher.contracts.IClienteEventPublisher;
 import com.brayanpv.app.mocks.JsonMocksConstants;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +36,7 @@ class ClienteServiceTest {
     private PasswordEncoder passwordEncoder;
 
     @Mock
-    private IClienteEventPublisher clienteEventPublisher;
+    private IEventPublisher clienteEventPublisher;
 
     @InjectMocks
     private ClienteService clienteService;
