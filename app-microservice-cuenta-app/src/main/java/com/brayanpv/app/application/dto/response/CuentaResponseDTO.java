@@ -12,7 +12,8 @@ import lombok.Data;
 public class CuentaResponseDTO {
     private String numeroCuenta;
     private TipoCuenta tipoCuenta;
-    private double saldo;
+    private double saldoInicial;
     private Boolean estado;
     private String cliente;
+    private Long id;
 }

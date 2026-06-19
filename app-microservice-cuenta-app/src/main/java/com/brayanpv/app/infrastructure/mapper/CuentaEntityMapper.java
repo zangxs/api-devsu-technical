@@ -18,7 +18,7 @@ public class CuentaEntityMapper {
         return CuentaEntity.builder()
                 .tipoCuenta(cuenta.getTipoCuenta())
                 .numeroCuenta(cuenta.getNumeroCuenta())
-                .saldo(cuenta.getSaldo())
+                .saldoInicial(cuenta.getSaldoInicial())
                 .estado(cuenta.getEstado())
                 .cliente(clienteReplicaEntityMapper.toEntity(cuenta.getClienteReplica()))
                 .build();
@@ -28,9 +28,10 @@ public class CuentaEntityMapper {
         return Cuenta.builder()
                 .tipoCuenta(cuentaEntity.getTipoCuenta())
                 .numeroCuenta(cuentaEntity.getNumeroCuenta())
-                .saldo(cuentaEntity.getSaldo())
+                .saldoInicial(cuentaEntity.getSaldoInicial())
                 .estado(cuentaEntity.getEstado())
                 .clienteReplica(clienteReplicaEntityMapper.toDomain(cuentaEntity.getCliente()))
+                .id(cuentaEntity.getId())
                 .build();
     }
 

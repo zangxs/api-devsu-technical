@@ -7,6 +7,7 @@ import com.brayanpv.app.application.service.contracts.IClienteService;
 import com.brayanpv.app.infrastructure.web.contracts.IClienteController;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/clientes")
 @Log4j2
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ClienteController implements IClienteController {
 
     private final IClienteService clienteService;

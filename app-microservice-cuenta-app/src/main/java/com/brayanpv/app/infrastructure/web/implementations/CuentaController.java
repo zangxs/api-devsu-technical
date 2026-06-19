@@ -10,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -30,7 +27,7 @@ public class CuentaController implements ICuentaController {
     @PostMapping("/crear")
     public ResponseEntity<ApiResponse> create(@RequestBody @Valid CuentaRequestDTO cuentaRequestDTO) {
         log.info("Iniciando proceso de crear Cuenta");
-        CuentaResponseDTO response = cuentaService.crearCuenta(cuentaRequestDTO);
+        CuentaResponseDTO response = cuentaService.createCuenta(cuentaRequestDTO);
         ApiResponse apiResponse = setDataResponse(response);
         return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }
@@ -38,6 +35,14 @@ public class CuentaController implements ICuentaController {
     @Override
     public ResponseEntity<ApiResponse> update(CuentaRequestDTO cuentaRequestDTO) {
         return null;
+    }
+
+    @Override
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse> read(@PathVariable Long id) {
+        CuentaResponseDTO response = cuentaService.readCuenta(id);
+        ApiResponse apiResponse = setDataResponse(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }
 
     private ApiResponse setDataResponse(Object data) {

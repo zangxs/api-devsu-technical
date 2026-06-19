@@ -8,4 +8,6 @@ import org.springframework.http.ResponseEntity;
 public interface ICuentaController {
     ResponseEntity<ApiResponse> create(CuentaRequestDTO cuentaRequestDTO);
     ResponseEntity<ApiResponse> update(CuentaRequestDTO cuentaRequestDTO);
+    ResponseEntity<ApiResponse> read(Long id);
+
 }

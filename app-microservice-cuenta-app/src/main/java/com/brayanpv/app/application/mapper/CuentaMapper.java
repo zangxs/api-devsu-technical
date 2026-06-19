@@ -12,7 +12,7 @@ public class CuentaMapper {
         return Cuenta.builder()
                 .estado(cuentaRequestDTO.getEstado())
                 .tipoCuenta(cuentaRequestDTO.getTipoCuenta())
-                .saldo(cuentaRequestDTO.getSaldo())
+                .saldoInicial(cuentaRequestDTO.getSaldoInicial())
                 .numeroCuenta(cuentaRequestDTO.getNumeroCuenta())
                 .build();
     }
@@ -20,10 +20,11 @@ public class CuentaMapper {
     public CuentaResponseDTO toResponse(Cuenta cuenta) {
         return CuentaResponseDTO.builder()
                 .tipoCuenta(cuenta.getTipoCuenta())
-                .saldo(cuenta.getSaldo())
+                .saldoInicial(cuenta.getSaldoInicial())
                 .numeroCuenta(String.valueOf(cuenta.getNumeroCuenta()))
                 .estado(cuenta.getEstado())
                 .cliente(cuenta.getClienteReplica().getNombre())
+                .id(cuenta.getId())
                 .build();
     }
 

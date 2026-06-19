@@ -8,6 +8,8 @@ import com.brayanpv.app.infrastructure.persistence.repository.ICuentaJpaReposito
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 @RequiredArgsConstructor
 public class CuentaRepositoryAdapter implements ICuentaRepository {
@@ -21,5 +23,21 @@ public class CuentaRepositoryAdapter implements ICuentaRepository {
         CuentaEntity savedEntity = cuentaJpaRepository.save(cuentaEntity);
 
         return cuentaMapper.toDomain(savedEntity);
+    }
+
+    @Override
+    public Optional<Cuenta> findById(Long id) {
+
+        CuentaEntity cuentaEntity = cuentaJpaRepository.findById(id).orElse(null);
+        if (cuentaEntity == null) {
+            return Optional.empty();
+        }
+        return Optional.of(cuentaMapper.toDomain(cuentaEntity));
+
+    }
+
+    @Override
+    public boolean existsByNumeroCuenta(String numeroCuenta) {
+        return cuentaJpaRepository.existsByNumeroCuenta(numeroCuenta);
     }
 }

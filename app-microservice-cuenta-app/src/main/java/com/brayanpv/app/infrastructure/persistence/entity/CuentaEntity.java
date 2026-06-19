@@ -21,12 +21,19 @@ public class CuentaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cuenta_id")
     private Long id;
+
     @Column(unique = true, nullable = false)
     private String numeroCuenta;
+
     @Enumerated(EnumType.STRING)
     private TipoCuenta tipoCuenta;
-    private double saldo;
+
+    @Column(nullable = false)
+    private double saldoInicial;
+
+    @Column(nullable = false)
     private Boolean estado;
+
     @OneToOne
     @JoinColumn(name = "cliente_cliente_id")
     private ClienteReplicaEntity cliente;
