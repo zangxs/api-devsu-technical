@@ -3,6 +3,9 @@ package com.brayanpv.app.infrastructure.persistence.entity;
 import com.brayanpv.app.domain.model.enums.Genero;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 
 @Entity
 @Table(name = "clientes")
@@ -11,6 +14,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@SQLDelete(sql = "UPDATE clientes SET estado = false WHERE cliente_id=?")
+@Where(clause = "estado=true")
 public class ClienteEntity {
 
     @Id

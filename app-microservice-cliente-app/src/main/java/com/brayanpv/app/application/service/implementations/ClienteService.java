@@ -8,6 +8,7 @@ import com.brayanpv.app.domain.exception.ClienteNotFoundException;
 import com.brayanpv.app.domain.exception.DuplicateIdentificationException;
 import com.brayanpv.app.domain.model.Cliente;
 import com.brayanpv.app.domain.repository.IClienteRepository;
+import com.brayanpv.app.infrastructure.messaging.publisher.contracts.IClienteEventPublisher;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +24,8 @@ public class ClienteService implements IClienteService {
     private IClienteRepository clienteRepository;
     private ClienteMapper clienteMapper;
     private final PasswordEncoder passwordEncoder;
+    private final IClienteEventPublisher clienteEventPublisher;
+
 
     @Override
     public ClienteResponseDTO crearCliente(ClienteRequestDTO clienteRequestDTO) {
@@ -38,6 +41,8 @@ public class ClienteService implements IClienteService {
         cliente.setPassword(passwordEncoder.encode(cliente.getPassword()));
         Cliente clienteGuardado = clienteRepository.save(cliente);
         log.info("Cliente creado con id: {}", clienteGuardado.getClienteId());
+
+        clienteEventPublisher.publicarClienteCreado(clienteGuardado);
         return clienteMapper.toResponse(clienteGuardado);
     }
 
@@ -52,6 +57,10 @@ public class ClienteService implements IClienteService {
             throw new DuplicateIdentificationException(
                     "Ya existe un cliente con identificacion: " + clienteRequestDTO.getIdentificacion());
         }
+
+        String nombreAnterior = existente.getNombre();
+        Boolean estadoAnterior = existente.getEstado();
+
         existente.setNombre(clienteRequestDTO.getNombre());
         existente.setGenero(clienteRequestDTO.getGenero());
         existente.setEdad(clienteRequestDTO.getEdad());
@@ -68,6 +77,13 @@ public class ClienteService implements IClienteService {
 
         Cliente guardado = clienteRepository.save(existente);
         log.info("Cliente actualizado con id: {}", guardado.getClienteId());
+
+        boolean cambioNombre = !nombreAnterior.equals(guardado.getNombre());
+        boolean cambioEstado = !estadoAnterior.equals(guardado.getEstado());
+        if (cambioNombre || cambioEstado) {
+            clienteEventPublisher.publicarClienteActualizado(guardado);
+        }
+
         return clienteMapper.toResponse(guardado);
 
     }
