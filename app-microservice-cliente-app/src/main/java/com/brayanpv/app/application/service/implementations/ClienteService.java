@@ -42,13 +42,43 @@ public class ClienteService implements IClienteService {
     }
 
     @Override
-    public ClienteResponseDTO actualizarCliente(ClienteRequestDTO clienteRequestDTO) {
-        return null;
+    public ClienteResponseDTO actualizarCliente(Long id, ClienteRequestDTO clienteRequestDTO) {
+        Cliente existente = clienteRepository.findById(id)
+                .orElseThrow(() -> new ClienteNotFoundException(
+                        "Cliente no encontrado con id: " + id));
+
+        if (!existente.getIdentificacion().equals(clienteRequestDTO.getIdentificacion())
+                && clienteRepository.existsByIdentificacion(clienteRequestDTO.getIdentificacion())) {
+            throw new DuplicateIdentificationException(
+                    "Ya existe un cliente con identificacion: " + clienteRequestDTO.getIdentificacion());
+        }
+        existente.setNombre(clienteRequestDTO.getNombre());
+        existente.setGenero(clienteRequestDTO.getGenero());
+        existente.setEdad(clienteRequestDTO.getEdad());
+        existente.setIdentificacion(clienteRequestDTO.getIdentificacion());
+        existente.setDireccion(clienteRequestDTO.getDireccion());
+        existente.setTelefono(clienteRequestDTO.getTelefono());
+        if (clienteRequestDTO.getEstado() != null) {
+            existente.setEstado(clienteRequestDTO.getEstado());
+        }
+
+        if (clienteRequestDTO.getPassword() != null && !clienteRequestDTO.getPassword().isBlank()) {
+            existente.setPassword(passwordEncoder.encode(clienteRequestDTO.getPassword()));
+        }
+
+        Cliente guardado = clienteRepository.save(existente);
+        log.info("Cliente actualizado con id: {}", guardado.getClienteId());
+        return clienteMapper.toResponse(guardado);
+
     }
 
     @Override
     public void eliminarCliente(Long id) {
-
+        log.info("Eliminando Cliente con id: {}", id);
+        clienteRepository.findById(id)
+                .orElseThrow(() -> new ClienteNotFoundException(
+                        "Cliente no encontrado con id: " + id));
+        clienteRepository.deleteById(id);
     }
 
     @Override
@@ -65,6 +95,6 @@ public class ClienteService implements IClienteService {
         log.info("Listando todos clientes");
         List<Cliente> clientes = clienteRepository.findAll();
         log.info("Todos clientes: {}", clientes);
-        return clienteMapper.toResponseList(clientes);
+        return clientes.stream().map(cliente -> clienteMapper.toResponse(cliente)).toList();
     }
 }

@@ -66,8 +66,8 @@ class ClienteControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(clienteRequestDTO)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.nombre").value(clienteRequestDTO.getNombre()))
-                .andExpect(jsonPath("$.identificacion").value(clienteRequestDTO.getIdentificacion()));
+                .andExpect(jsonPath("$.data.nombre").value(clienteRequestDTO.getNombre()))
+                .andExpect(jsonPath("$.data.identificacion").value(clienteRequestDTO.getIdentificacion()));
 
         verify(clienteService, times(1)).crearCliente(clienteRequestDTO);
 
@@ -96,8 +96,8 @@ class ClienteControllerTest {
         Mockito.when(clienteService.buscarClientePorId(1L)).thenReturn(clienteResponseDTO);
         mockMvc.perform(get("/api/clientes/{id}", 1L))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.nombre").value(clienteResponseDTO.getNombre()))
-                .andExpect(jsonPath("$.identificacion").value(clienteResponseDTO.getIdentificacion()));
+                .andExpect(jsonPath("$.data.nombre").value(clienteResponseDTO.getNombre()))
+                .andExpect(jsonPath("$.data.identificacion").value(clienteResponseDTO.getIdentificacion()));
 
         verify(clienteService, times(1)).buscarClientePorId(1L);
 

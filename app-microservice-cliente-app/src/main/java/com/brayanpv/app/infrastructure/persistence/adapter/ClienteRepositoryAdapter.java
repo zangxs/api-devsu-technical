@@ -32,10 +32,6 @@ public class ClienteRepositoryAdapter implements IClienteRepository {
         return clienteEntity.map(clienteMapper::toDomain);
     }
 
-    @Override
-    public Optional<Cliente> findByIdentificacion(String identificacion) {
-        return Optional.empty();
-    }
 
     @Override
     public List<Cliente> findAll() {
@@ -45,7 +41,7 @@ public class ClienteRepositoryAdapter implements IClienteRepository {
 
     @Override
     public void deleteById(Long id) {
-
+        clienteJpaRepository.deleteById(id);
     }
 
     @Override

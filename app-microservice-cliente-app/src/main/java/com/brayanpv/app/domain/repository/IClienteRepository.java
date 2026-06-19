@@ -9,7 +9,6 @@ import java.util.Optional;
 public interface IClienteRepository {
     Cliente save(Cliente cliente);
     Optional<Cliente> findById(Long id);
-    Optional<Cliente> findByIdentificacion(String identificacion);
     List<Cliente> findAll();
     void deleteById(Long id);
     boolean existsByIdentificacion(String identificacion);

@@ -12,10 +12,9 @@ public class ClienteMapper {
 
     public Cliente toDomain(ClienteRequestDTO clienteRequestDTO) {
 
-        //TODO corregir aca el genero
         return Cliente.builder()
                 .nombre(clienteRequestDTO.getNombre())
-                //.genero(clienteRequestDTO.getGenero())
+                .genero(clienteRequestDTO.getGenero())
                 .edad(clienteRequestDTO.getEdad())
                 .identificacion(clienteRequestDTO.getIdentificacion())
                 .direccion(clienteRequestDTO.getDireccion())
@@ -29,6 +28,7 @@ public class ClienteMapper {
         return ClienteResponseDTO.builder()
                 .clienteId(cliente.getClienteId())
                 .nombre(cliente.getNombre())
+                .genero(cliente.getGenero())
                 .edad(cliente.getEdad())
                 .identificacion(cliente.getIdentificacion())
                 .direccion(cliente.getDireccion())
@@ -37,10 +37,5 @@ public class ClienteMapper {
                 .build();
     }
 
-    public List<ClienteResponseDTO> toResponseList(List<Cliente> clientes) {
-        return clientes.stream()
-                .map(this::toResponse)
-                .toList();
-    }
 
 }

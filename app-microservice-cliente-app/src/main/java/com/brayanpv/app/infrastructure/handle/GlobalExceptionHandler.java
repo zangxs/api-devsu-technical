@@ -1,6 +1,6 @@
 package com.brayanpv.app.infrastructure.handle;
 
-import com.brayanpv.app.application.dto.response.ErrorResponse;
+import com.brayanpv.app.application.dto.response.ApiResponse;
 import com.brayanpv.app.domain.exception.ClienteNotFoundException;
 import com.brayanpv.app.domain.exception.DuplicateIdentificationException;
 import lombok.extern.log4j.Log4j2;
@@ -23,10 +23,10 @@ import java.util.regex.Pattern;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = RuntimeException.class)
-    public ResponseEntity<ErrorResponse> handleException(RuntimeException ex) {
+    public ResponseEntity<ApiResponse> handleException(RuntimeException ex) {
         log.error(ex.getMessage(), ex);
 
-        ErrorResponse apiResponse = ErrorResponse.builder()
+        ApiResponse apiResponse = ApiResponse.builder()
                 .dateTime(LocalDateTime.now(ZoneOffset.UTC))
                 .code(HttpStatus.BAD_REQUEST.value())
                 .data(ex.getMessage())
@@ -36,10 +36,10 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = DuplicateIdentificationException.class)
-    public ResponseEntity<ErrorResponse> handleDuplicateIdentificationException(DuplicateIdentificationException ex) {
+    public ResponseEntity<ApiResponse> handleDuplicateIdentificationException(DuplicateIdentificationException ex) {
         log.error(ex.getMessage(), ex);
 
-        ErrorResponse apiResponse = ErrorResponse.builder()
+        ApiResponse apiResponse = ApiResponse.builder()
                 .dateTime(LocalDateTime.now(ZoneOffset.UTC))
                 .code(HttpStatus.BAD_REQUEST.value())
                 .data(ex.getMessage())
@@ -49,10 +49,10 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = ClienteNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleClienteNotFoundException(ClienteNotFoundException ex) {
+    public ResponseEntity<ApiResponse> handleClienteNotFoundException(ClienteNotFoundException ex) {
         log.error(ex.getMessage(), ex);
 
-        ErrorResponse apiResponse = ErrorResponse.builder()
+        ApiResponse apiResponse = ApiResponse.builder()
                 .dateTime(LocalDateTime.now(ZoneOffset.UTC))
                 .code(HttpStatus.BAD_REQUEST.value())
                 .data(ex.getMessage())
@@ -62,7 +62,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ApiResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         log.error(ex.getMessage(), ex);
 
         List<String> errors = extractDefaultMessages(ex.getMessage());
@@ -70,7 +70,7 @@ public class GlobalExceptionHandler {
         Map<String, Object> errorData = Map.of("errors", errors);
 
 
-        ErrorResponse apiResponse = ErrorResponse.builder()
+        ApiResponse apiResponse = ApiResponse.builder()
                 .dateTime(LocalDateTime.now(ZoneOffset.UTC))
                 .code(HttpStatus.BAD_REQUEST.value())
                 .data(errorData)

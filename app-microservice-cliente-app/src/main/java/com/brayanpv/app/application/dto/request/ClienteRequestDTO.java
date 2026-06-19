@@ -1,5 +1,6 @@
 package com.brayanpv.app.application.dto.request;
 
+import com.brayanpv.app.domain.model.enums.Genero;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -12,7 +13,7 @@ public class ClienteRequestDTO {
     private String nombre;
 
     @NotNull(message = "El género es obligatorio")
-    private String genero;
+    private Genero genero;
 
     @NotNull(message = "La edad es obligatoria")
     private Integer edad;

@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class ErrorResponse implements SecureRandomParameters {
+public class ApiResponse implements SecureRandomParameters {
 
     private Object data;
     private int code;
