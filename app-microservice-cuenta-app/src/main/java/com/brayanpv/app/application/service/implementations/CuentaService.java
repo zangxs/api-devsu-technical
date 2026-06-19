@@ -30,10 +30,9 @@ public class CuentaService implements ICuentaService {
     @Override
     public CuentaResponseDTO createCuenta(CuentaRequestDTO cuentaRequestDTO) {
 
-        ClienteReplica clienteReplica = clienteReplicaRepository.findById(cuentaRequestDTO.getClienteId());
-        if (clienteReplica == null) {
-            throw new ClienteNotFoundException("Cliente no encontrado");
-        }
+        ClienteReplica clienteReplica = clienteReplicaRepository.findById(cuentaRequestDTO.getClienteId())
+                .orElseThrow(() -> new ClienteNotFoundException("Cliente no encontrado"));
+
 
         if (!clienteReplica.getEstado()) {
             throw new ClientNotAvailableException("Cliente no esta disponible");

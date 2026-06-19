@@ -22,18 +22,15 @@ public class ClienteEventConsumer implements IClienteEventConsumer {
     public void recibirEventoCliente(ClienteEvent evento) {
         log.info("Evento recibido: clienteId={}, nombre={}", evento.clienteId(), evento.nombre());
 
-        try {
-            ClienteReplica replica = ClienteReplica.builder()
-                    .clienteId(evento.clienteId())
-                    .nombre(evento.nombre())
-                    .estado(evento.estado())
-                    .build();
+        replicaRepository.findById(evento.clienteId())
+                .ifPresentOrElse(existente -> {
+                    existente.setNombre(evento.nombre());
+                    existente.setEstado(evento.estado());
+                    replicaRepository.save(existente);
+                }, () -> replicaRepository.save(
+                        new ClienteReplica(evento.clienteId(), evento.nombre(), evento.estado())
+                ));
 
-            replicaRepository.save(replica);
-            log.info("Cliente replicado correctamente: clienteId={}", evento.clienteId());
-
-        } catch (Exception e) {
-            log.error("Error al procesar evento de cliente: clienteId={}", evento.clienteId(), e);
-        }
+        
     }
 }

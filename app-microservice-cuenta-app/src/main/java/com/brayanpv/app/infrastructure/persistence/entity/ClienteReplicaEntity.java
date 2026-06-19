@@ -16,6 +16,7 @@ import lombok.*;
 public class ClienteReplicaEntity {
 
     @Id
+    @Column(unique = true)
     private Long clienteId;
 
     @Column(nullable = false)

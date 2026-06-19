@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -26,11 +27,8 @@ public class ClienteReplicaRepositoryAdapter implements IClienteReplicaRepositor
     }
 
     @Override
-    public ClienteReplica findById(Long id) {
-        ClienteReplicaEntity clienteReplicaEntity = clienteReplicaJpaRepository.findById(id).orElse(null);
-        if (Objects.nonNull(clienteReplicaEntity)) {
-            return clienteReplicaEntityMapper.toDomain(clienteReplicaEntity);
-        }
-        return null;
+    public Optional<ClienteReplica> findById(Long id) {
+        Optional<ClienteReplicaEntity> clienteReplicaEntity = clienteReplicaJpaRepository.findById(id);
+        return clienteReplicaEntity.map(clienteReplicaEntityMapper::toDomain);
     }
 }
