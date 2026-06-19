@@ -29,12 +29,11 @@ public class ClienteEventConsumer implements IClienteEventConsumer {
                     .estado(evento.estado())
                     .build();
 
-            replicaRepository.save(replica);  // upsert: crea o actualiza
+            replicaRepository.save(replica);
             log.info("Cliente replicado correctamente: clienteId={}", evento.clienteId());
 
         } catch (Exception e) {
             log.error("Error al procesar evento de cliente: clienteId={}", evento.clienteId(), e);
-            // por ahora solo logueamos; mas adelante podemos agregar retry o DLQ
         }
     }
 }

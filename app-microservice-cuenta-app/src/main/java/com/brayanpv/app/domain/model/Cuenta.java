@@ -17,7 +17,8 @@ public class Cuenta implements Serializable {
     private Long id;
     private String numeroCuenta;
     private TipoCuenta tipoCuenta;
-    private double saldoInicial;
+    private double saldo;
     private Boolean estado;
+    private ClienteReplica clienteReplica;
 
 }

@@ -5,4 +5,5 @@ import com.brayanpv.app.domain.model.ClienteReplica;
 public interface IClienteReplicaRepository {
 
     ClienteReplica save(ClienteReplica clienteReplica);
+    ClienteReplica findById(Long id);
 }
