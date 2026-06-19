@@ -7,8 +7,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class ClienteEntityMapper {
 
-
-
     public ClienteEntity toEntity(Cliente domain) {
         return ClienteEntity.builder()
                 .clienteId(domain.getClienteId())
