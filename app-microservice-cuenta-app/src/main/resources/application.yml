@@ -21,6 +21,14 @@ spring:
     port: ${SPRING_RABBITMQ_PORT:5672}
     username: ${SPRING_RABBITMQ_USERNAME:rabbit_user}
     password: ${SPRING_RABBITMQ_PASSWORD:rabbit_pass}
+    listener:
+      simple:
+        retry:
+          enabled: true
+          initial-interval: 1000
+          max-attempts: 3
+          multiplier: 2.0
+        default-requeue-rejected: false
 
 server:
   port: 8080

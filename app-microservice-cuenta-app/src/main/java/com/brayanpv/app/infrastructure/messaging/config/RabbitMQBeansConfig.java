@@ -2,10 +2,7 @@ package com.brayanpv.app.infrastructure.messaging.config;
 
 import com.brayanpv.app.infrastructure.messaging.constants.RabbitMQConstants;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -26,7 +23,10 @@ public class RabbitMQBeansConfig {
 
     @Bean
     public Queue cuentasClienteEventsQueue() {
-        return new Queue(RabbitMQConstants.QUEUE_CUENTAS_CLIENTE_EVENTS, true);
+        return QueueBuilder.durable(RabbitMQConstants.QUEUE_CUENTAS_CLIENTE_EVENTS)
+                .withArgument("x-dead-letter-exchange", RabbitMQConstants.DLX_EXCHANGE)
+                .withArgument("x-dead-letter-routing-key", RabbitMQConstants.DLQ_ROUTING_KEY)
+                .build();
     }
 
     @Bean
@@ -48,6 +48,24 @@ public class RabbitMQBeansConfig {
     public MessageConverter jsonMessageConverter(ObjectMapper objectMapper) {
         return new Jackson2JsonMessageConverter(objectMapper);
     }
+
+    @Bean
+    public DirectExchange deadLetterExchange() {
+        return new DirectExchange(RabbitMQConstants.DLX_EXCHANGE, true, false);
+    }
+
+    @Bean
+    public Queue deadLetterQueue() {
+        return QueueBuilder.durable(RabbitMQConstants.DLQ_QUEUE).build();
+    }
+
+    @Bean
+    public Binding deadLetterBinding(Queue deadLetterQueue, DirectExchange deadLetterExchange) {
+        return BindingBuilder.bind(deadLetterQueue)
+                .to(deadLetterExchange)
+                .with(RabbitMQConstants.DLQ_ROUTING_KEY);
+    }
+
 
     @Bean
     public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory, MessageConverter jsonMessageConverter) {
