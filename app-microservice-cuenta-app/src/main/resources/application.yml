@@ -1,10 +1,10 @@
 spring:
   application:
-    name: app-microservice-cliente-app
+    name: app-microservice-cuenta-app
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/cliente_db}
-    username: ${SPRING_DATASOURCE_USERNAME:cliente_user}
-    password: ${SPRING_DATASOURCE_PASSWORD:cliente_pass}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/cuenta_db}
+    username: ${SPRING_DATASOURCE_USERNAME:cuenta_user}
+    password: ${SPRING_DATASOURCE_PASSWORD:cuenta_pass}
     driver-class-name: org.postgresql.Driver
 
   jpa:
