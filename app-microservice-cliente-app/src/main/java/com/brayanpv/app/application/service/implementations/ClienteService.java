@@ -6,9 +6,9 @@ import com.brayanpv.app.application.mapper.ClienteMapper;
 import com.brayanpv.app.application.service.contracts.IClienteService;
 import com.brayanpv.app.domain.exception.ClienteNotFoundException;
 import com.brayanpv.app.domain.exception.DuplicateIdentificationException;
+import com.brayanpv.app.domain.messaging.IEventPublisher;
 import com.brayanpv.app.domain.model.Cliente;
 import com.brayanpv.app.domain.repository.IClienteRepository;
-import com.brayanpv.app.infrastructure.messaging.publisher.contracts.IClienteEventPublisher;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,7 +24,7 @@ public class ClienteService implements IClienteService {
     private IClienteRepository clienteRepository;
     private ClienteMapper clienteMapper;
     private final PasswordEncoder passwordEncoder;
-    private final IClienteEventPublisher clienteEventPublisher;
+    private final IEventPublisher clienteEventPublisher;
 
 
     @Override
