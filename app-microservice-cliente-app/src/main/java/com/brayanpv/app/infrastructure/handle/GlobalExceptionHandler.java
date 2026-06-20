@@ -41,7 +41,7 @@ public class GlobalExceptionHandler {
 
         GenericResponse<Object> genericResponse = GenericResponse.builder()
                 .dateTime(LocalDateTime.now(ZoneOffset.UTC))
-                .code(HttpStatus.BAD_REQUEST.value())
+                .code(HttpStatus.CONFLICT.value())
                 .data(ex.getMessage())
                 .build();
         return ResponseEntity.status(HttpStatus.CONFLICT).body(genericResponse);
@@ -54,7 +54,7 @@ public class GlobalExceptionHandler {
 
         GenericResponse<Object> genericResponse = GenericResponse.builder()
                 .dateTime(LocalDateTime.now(ZoneOffset.UTC))
-                .code(HttpStatus.BAD_REQUEST.value())
+                .code(HttpStatus.NOT_FOUND.value())
                 .data(ex.getMessage())
                 .build();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(genericResponse);
