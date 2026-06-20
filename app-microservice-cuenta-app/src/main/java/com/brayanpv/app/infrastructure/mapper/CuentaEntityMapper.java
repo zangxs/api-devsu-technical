@@ -6,16 +6,19 @@ import com.brayanpv.app.infrastructure.persistence.entity.ClienteReplicaEntity;
 import com.brayanpv.app.infrastructure.persistence.entity.CuentaEntity;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@Log4j2
 public class CuentaEntityMapper {
 
     private final ClienteReplicaEntityMapper clienteReplicaEntityMapper;
 
     public CuentaEntity toEntity(Cuenta cuenta) {
         return CuentaEntity.builder()
+                .id(cuenta.getId())
                 .tipoCuenta(cuenta.getTipoCuenta())
                 .numeroCuenta(cuenta.getNumeroCuenta())
                 .saldoInicial(cuenta.getSaldoInicial())
@@ -25,6 +28,9 @@ public class CuentaEntityMapper {
     }
 
     public Cuenta toDomain(CuentaEntity cuentaEntity) {
+
+       log.info("Entity: {}", cuentaEntity.toString());
+
         return Cuenta.builder()
                 .tipoCuenta(cuentaEntity.getTipoCuenta())
                 .numeroCuenta(cuentaEntity.getNumeroCuenta())

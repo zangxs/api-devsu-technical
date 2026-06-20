@@ -33,8 +33,13 @@ public class CuentaController implements ICuentaController {
     }
 
     @Override
-    public ResponseEntity<ApiResponse> update(CuentaRequestDTO cuentaRequestDTO) {
-        return null;
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse> update(@PathVariable Long id,@RequestBody CuentaRequestDTO cuentaRequestDTO) {
+
+        log.info("Iniciando proceso de actualizar Cuenta");
+        CuentaResponseDTO response = cuentaService.updateCuenta(id, cuentaRequestDTO);
+        ApiResponse apiResponse = setDataResponse(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }
 
     @Override

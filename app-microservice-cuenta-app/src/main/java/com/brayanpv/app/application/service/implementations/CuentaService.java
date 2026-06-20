@@ -29,10 +29,9 @@ public class CuentaService implements ICuentaService {
 
     @Override
     public CuentaResponseDTO createCuenta(CuentaRequestDTO cuentaRequestDTO) {
-
+        log.info("Iniciando proceso de creacion de Cuenta: {}", cuentaRequestDTO.toString());
         ClienteReplica clienteReplica = clienteReplicaRepository.findById(cuentaRequestDTO.getClienteId())
                 .orElseThrow(() -> new ClienteNotFoundException("Cliente no encontrado"));
-
 
         if (!clienteReplica.getEstado()) {
             throw new ClientNotAvailableException("Cliente no esta disponible");
@@ -50,7 +49,6 @@ public class CuentaService implements ICuentaService {
     @Override
     public CuentaResponseDTO readCuenta(Long id) {
         Cuenta cuenta = cuentaRepository.findById(id).orElseThrow(() -> new CuentaNotFoundException("Cuenta no encontrada"));
-
         return cuentaMapper.toResponse(cuenta);
 
     }
@@ -63,10 +61,18 @@ public class CuentaService implements ICuentaService {
                 && cuentaRepository.existsByNumeroCuenta(cuentaRequestDTO.getNumeroCuenta())) {
             throw new DuplicateCuentaException("Cuenta existente");
         }
+
+        if (!cuentaExistente.getClienteReplica().getClienteId().equals(cuentaRequestDTO.getClienteId())) {
+
+            ClienteReplica clienteReplica = clienteReplicaRepository.findById(cuentaRequestDTO.getClienteId())
+                    .orElseThrow(() -> new ClienteNotFoundException("Cliente no encontrado"));
+
+            cuentaExistente.setClienteReplica(clienteReplica);
+        }
+
         cuentaExistente.setNumeroCuenta(cuentaRequestDTO.getNumeroCuenta());
         cuentaExistente.setEstado(cuentaRequestDTO.getEstado());
         cuentaExistente.setTipoCuenta(cuentaRequestDTO.getTipoCuenta());
-        cuentaExistente.setSaldoInicial(cuentaRequestDTO.getSaldoInicial());
         Cuenta cuentaActualizada = cuentaRepository.save(cuentaExistente);
         log.info("Cuenta actualizada con id: {}", cuentaActualizada.getId());
 

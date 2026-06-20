@@ -22,8 +22,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = RuntimeException.class)
     public ResponseEntity<ApiResponse> handleException(RuntimeException ex) {
-        log.error(ex.getMessage(), ex);
-
+        log.error("Exception: ", ex);
         ApiResponse apiResponse = ApiResponse.builder()
                 .dateTime(LocalDateTime.now(ZoneOffset.UTC))
                 .code(HttpStatus.BAD_REQUEST.value())

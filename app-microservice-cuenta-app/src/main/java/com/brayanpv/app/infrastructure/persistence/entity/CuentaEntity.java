@@ -34,7 +34,7 @@ public class CuentaEntity {
     @Column(nullable = false)
     private Boolean estado;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "cliente_cliente_id")
     private ClienteReplicaEntity cliente;
 }
