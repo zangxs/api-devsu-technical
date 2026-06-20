@@ -20,3 +20,6 @@ CREATE TABLE IF NOT EXISTS clientes (
     direccion       VARCHAR(200),
     telefono        VARCHAR(20)
     );
+
+
+CREATE INDEX idx_movimientos_cuenta_id ON movimientos(cuenta_id);

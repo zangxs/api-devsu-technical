@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Data
 public class CuentaRequestDTO implements Serializable {
@@ -18,7 +19,7 @@ public class CuentaRequestDTO implements Serializable {
     @NotNull(message = "El tipoCuenta es obligatorio")
     private TipoCuenta tipoCuenta;
     @NotNull(message = "El saldoInicial es obligatorio")
-    private double saldoInicial;
+    private BigDecimal saldoInicial;
     private Boolean estado;
     @NotNull(message = "El clienteId es obligatorio")
     private Long clienteId;

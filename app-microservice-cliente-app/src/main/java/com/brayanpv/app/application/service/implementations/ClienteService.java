@@ -91,10 +91,12 @@ public class ClienteService implements IClienteService {
     @Override
     public void eliminarCliente(Long id) {
         log.info("Eliminando Cliente con id: {}", id);
-        clienteRepository.findById(id)
+        Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(() -> new ClienteNotFoundException(
                         "Cliente no encontrado con id: " + id));
         clienteRepository.deleteById(id);
+        clienteEventPublisher.publicarClienteActualizado(cliente);
+
     }
 
     @Override

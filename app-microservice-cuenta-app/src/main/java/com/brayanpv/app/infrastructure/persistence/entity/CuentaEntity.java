@@ -6,6 +6,8 @@ import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import java.math.BigDecimal;
+
 @Table(name = "cuentas")
 @Entity
 @SQLDelete(sql = "UPDATE cuentas SET estado = false WHERE cuenta_id=?")
@@ -29,7 +31,7 @@ public class CuentaEntity {
     private TipoCuenta tipoCuenta;
 
     @Column(nullable = false)
-    private double saldoInicial;
+    private BigDecimal saldoInicial;
 
     @Column(nullable = false)
     private Boolean estado;

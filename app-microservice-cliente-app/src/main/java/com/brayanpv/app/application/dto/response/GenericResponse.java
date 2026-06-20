@@ -3,14 +3,14 @@ package com.brayanpv.app.application.dto.response;
 import lombok.Builder;
 import lombok.Data;
 
-import java.security.SecureRandomParameters;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class ApiResponse implements SecureRandomParameters {
+public class GenericResponse<T> implements Serializable {
 
-    private Object data;
+    private T data;
     private int code;
     private LocalDateTime dateTime;
 }
