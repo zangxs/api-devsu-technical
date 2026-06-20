@@ -37,7 +37,17 @@ public class CuentaRepositoryAdapter implements ICuentaRepository {
     }
 
     @Override
+    public Optional<Cuenta> findByNumeroCuenta(String numeroCuenta) {
+        CuentaEntity cuentaEntity = cuentaJpaRepository.findByNumeroCuenta(numeroCuenta).orElse(null);
+        if (cuentaEntity == null) {
+            return Optional.empty();
+        }
+        return Optional.of(cuentaMapper.toDomain(cuentaEntity));
+    }
+
+    @Override
     public boolean existsByNumeroCuenta(String numeroCuenta) {
         return cuentaJpaRepository.existsByNumeroCuenta(numeroCuenta);
     }
+
 }

@@ -7,5 +7,6 @@ import java.util.Optional;
 public interface ICuentaRepository {
     Cuenta save(Cuenta cuenta);
     Optional<Cuenta> findById(Long id);
+    Optional<Cuenta> findByNumeroCuenta(String numeroCuenta);
     boolean existsByNumeroCuenta(String numeroCuenta);
 }

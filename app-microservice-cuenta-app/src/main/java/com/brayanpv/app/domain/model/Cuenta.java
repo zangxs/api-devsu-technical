@@ -4,6 +4,7 @@ import com.brayanpv.app.domain.model.enums.TipoCuenta;
 import lombok.*;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -17,7 +18,7 @@ public class Cuenta implements Serializable {
     private Long id;
     private String numeroCuenta;
     private TipoCuenta tipoCuenta;
-    private double saldoInicial;
+    private BigDecimal saldoInicial;
     private Boolean estado;
     private ClienteReplica clienteReplica;
 
