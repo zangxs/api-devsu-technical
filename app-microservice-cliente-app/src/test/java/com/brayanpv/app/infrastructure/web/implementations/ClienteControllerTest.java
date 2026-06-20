@@ -89,6 +89,20 @@ class ClienteControllerTest {
     }
 
     @Test
+    void crearClienteBadRequest() throws Exception {
+        ClienteRequestDTO clienteRequestDTO = gson.fromJson(JsonMocksConstants.CREAR_REQUEST_BAD, ClienteRequestDTO.class);
+
+        mockMvc.perform(post("/api/clientes/crear")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(clienteRequestDTO)))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.data.errors").exists())
+                .andExpect(jsonPath("$.data.errors[0]").value(containsString("nombre")));
+
+        verifyNoInteractions(clienteService);
+    }
+
+    @Test
     void getClienteOk() throws Exception {
         ClienteResponseDTO clienteResponseDTO = gson.fromJson(JsonMocksConstants.CREAR_CLIENTE_RESPONSE, ClienteResponseDTO.class);
 
@@ -100,6 +114,16 @@ class ClienteControllerTest {
 
         verify(clienteService, times(1)).buscarClientePorId(1L);
 
+    }
+
+    @Test
+    void getClienteError() throws Exception {
+        Mockito.when(clienteService.buscarClientePorId(1L)).thenThrow(new ClienteNotFoundException("Cliente no encontrado con id"));
+        mockMvc.perform(get("/api/clientes/{id}", 1L))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.data").value(containsString("Cliente no encontrado con id")));
+
+        verify(clienteService, times(1)).buscarClientePorId(1L);
     }
 
     @Test
