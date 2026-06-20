@@ -1,6 +1,6 @@
 package com.brayanpv.app.infrastructure.handle;
 
-import com.brayanpv.app.application.dto.response.ApiResponse;
+import com.brayanpv.app.application.dto.response.GenericResponse;
 import com.brayanpv.app.domain.exception.ClienteNotFoundException;
 import com.brayanpv.app.domain.exception.DuplicateIdentificationException;
 import lombok.extern.log4j.Log4j2;
@@ -23,46 +23,46 @@ import java.util.regex.Pattern;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = RuntimeException.class)
-    public ResponseEntity<ApiResponse> handleException(RuntimeException ex) {
+    public ResponseEntity<GenericResponse<Object>> handleException(RuntimeException ex) {
         log.error(ex.getMessage(), ex);
 
-        ApiResponse apiResponse = ApiResponse.builder()
+        GenericResponse<Object> genericResponse = GenericResponse.builder()
                 .dateTime(LocalDateTime.now(ZoneOffset.UTC))
                 .code(HttpStatus.BAD_REQUEST.value())
                 .data(ex.getMessage())
                 .build();
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(genericResponse);
 
     }
 
     @ExceptionHandler(value = DuplicateIdentificationException.class)
-    public ResponseEntity<ApiResponse> handleDuplicateIdentificationException(DuplicateIdentificationException ex) {
+    public ResponseEntity<GenericResponse<Object>> handleDuplicateIdentificationException(DuplicateIdentificationException ex) {
         log.error(ex.getMessage(), ex);
 
-        ApiResponse apiResponse = ApiResponse.builder()
+        GenericResponse<Object> genericResponse = GenericResponse.builder()
                 .dateTime(LocalDateTime.now(ZoneOffset.UTC))
                 .code(HttpStatus.BAD_REQUEST.value())
                 .data(ex.getMessage())
                 .build();
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(genericResponse);
 
     }
 
     @ExceptionHandler(value = ClienteNotFoundException.class)
-    public ResponseEntity<ApiResponse> handleClienteNotFoundException(ClienteNotFoundException ex) {
+    public ResponseEntity<GenericResponse<Object>> handleClienteNotFoundException(ClienteNotFoundException ex) {
         log.error(ex.getMessage(), ex);
 
-        ApiResponse apiResponse = ApiResponse.builder()
+        GenericResponse<Object> genericResponse = GenericResponse.builder()
                 .dateTime(LocalDateTime.now(ZoneOffset.UTC))
                 .code(HttpStatus.BAD_REQUEST.value())
                 .data(ex.getMessage())
                 .build();
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(genericResponse);
 
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+    public ResponseEntity<GenericResponse<Object>> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         log.error(ex.getMessage(), ex);
 
         List<String> errors = extractDefaultMessages(ex.getMessage());
@@ -70,12 +70,12 @@ public class GlobalExceptionHandler {
         Map<String, Object> errorData = Map.of("errors", errors);
 
 
-        ApiResponse apiResponse = ApiResponse.builder()
+        GenericResponse<Object> genericResponse = GenericResponse.builder()
                 .dateTime(LocalDateTime.now(ZoneOffset.UTC))
                 .code(HttpStatus.BAD_REQUEST.value())
                 .data(errorData)
                 .build();
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(genericResponse);
 
     }
 
