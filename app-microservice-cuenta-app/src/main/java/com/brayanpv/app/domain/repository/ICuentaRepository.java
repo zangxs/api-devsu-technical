@@ -2,6 +2,7 @@ package com.brayanpv.app.domain.repository;
 
 import com.brayanpv.app.domain.model.Cuenta;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ICuentaRepository {
@@ -9,4 +10,5 @@ public interface ICuentaRepository {
     Optional<Cuenta> findById(Long id);
     Optional<Cuenta> findByNumeroCuenta(String numeroCuenta);
     boolean existsByNumeroCuenta(String numeroCuenta);
+    List<Cuenta> findByClienteId(Long clienteId);
 }

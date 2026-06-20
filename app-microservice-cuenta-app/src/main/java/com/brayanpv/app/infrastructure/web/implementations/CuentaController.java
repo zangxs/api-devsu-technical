@@ -48,7 +48,7 @@ public class CuentaController implements ICuentaController {
     public ResponseEntity<ApiResponse> read(@PathVariable Long id) {
         CuentaResponseDTO response = cuentaService.readCuenta(id);
         ApiResponse apiResponse = ApiResponseHelper.setDataResponse(response);
-        return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
+        return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
     }
 
 

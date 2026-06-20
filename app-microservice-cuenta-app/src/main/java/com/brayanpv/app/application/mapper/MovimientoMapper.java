@@ -27,6 +27,7 @@ public class MovimientoMapper {
                 .tipoMovimiento(movimiento.getTipoMovimiento())
                 .nuevoSaldo(movimiento.getSaldoDisponible())
                 .cuentaId(movimiento.getCuenta().getId())
+                .valor(movimiento.getValor())
                 .build();
     }
 }

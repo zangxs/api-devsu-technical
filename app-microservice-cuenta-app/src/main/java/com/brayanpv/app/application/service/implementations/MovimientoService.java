@@ -5,6 +5,7 @@ import com.brayanpv.app.application.dto.response.MovimientoResponseDTO;
 import com.brayanpv.app.application.mapper.MovimientoMapper;
 import com.brayanpv.app.application.service.contracts.IMovimientoService;
 import com.brayanpv.app.domain.exception.CuentaNotFoundException;
+import com.brayanpv.app.domain.exception.MovimientoNotFoundException;
 import com.brayanpv.app.domain.exception.SaldoNoDisponibleException;
 import com.brayanpv.app.domain.model.Cuenta;
 import com.brayanpv.app.domain.model.Movimiento;
@@ -57,6 +58,14 @@ public class MovimientoService implements IMovimientoService {
         log.info("movimiento creado");
         return movimientoMapper.toResponse(movimientoSaved);
 
+    }
+
+    @Override
+    public MovimientoResponseDTO readMovimiento(Long id) {
+        Movimiento movimiento = movimientoRepository.findById(id)
+                .orElseThrow(() -> new MovimientoNotFoundException("Movimiento no existente"));
+
+        return movimientoMapper.toResponse(movimiento);
     }
 
     private TipoMovimiento determinarTipoMovimiento(BigDecimal valor) {

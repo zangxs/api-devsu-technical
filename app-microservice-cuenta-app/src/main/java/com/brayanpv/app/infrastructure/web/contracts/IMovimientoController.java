@@ -6,4 +6,5 @@ import org.springframework.http.ResponseEntity;
 
 public interface IMovimientoController {
     ResponseEntity<ApiResponse> create(MovimientoRequestDTO movimientoRequestDTO);
+    ResponseEntity<ApiResponse> read(Long id);
 }

@@ -8,6 +8,8 @@ import com.brayanpv.app.infrastructure.persistence.repository.IMovimientoJpaRepo
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -30,4 +32,18 @@ public class MovimientoRepositoryAdapter implements IMovimientoRepository {
         Optional<MovimientoEntity> movimientoEntity = movimientoJpaRepository.findFirstByCuentaIdOrderByIdDesc(cuentaId);
         return movimientoEntity.map(movimientoEntityMapper::toDomain);
     }
+
+    @Override
+    public Optional<Movimiento> findById(Long id) {
+        Optional<MovimientoEntity> movimientoEntity = movimientoJpaRepository.findById(id);
+        return movimientoEntity.map(movimientoEntityMapper::toDomain);
+    }
+
+    @Override
+    public List<Movimiento> findByCuentaIdAndFechaBetween(Long cuentaId, LocalDate inicio, LocalDate fin) {
+        return movimientoJpaRepository.findByCuenta_IdAndFechaBetween(cuentaId, inicio, fin).stream()
+                .map(movimientoEntityMapper::toDomain)
+                .toList();
+    }
+
 }

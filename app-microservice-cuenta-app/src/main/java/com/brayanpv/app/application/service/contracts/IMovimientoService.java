@@ -6,4 +6,5 @@ import com.brayanpv.app.domain.model.Movimiento;
 
 public interface IMovimientoService {
     MovimientoResponseDTO crearMovimiento(MovimientoRequestDTO movimientoRequestDTO);
+    MovimientoResponseDTO readMovimiento(Long id);
 }
