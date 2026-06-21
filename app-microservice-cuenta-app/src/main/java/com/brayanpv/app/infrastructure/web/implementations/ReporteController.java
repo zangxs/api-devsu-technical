@@ -1,6 +1,6 @@
 package com.brayanpv.app.infrastructure.web.implementations;
 
-import com.brayanpv.app.application.dto.response.ApiResponse;
+import com.brayanpv.app.application.dto.response.GenericResponse;
 import com.brayanpv.app.application.dto.response.ReporteResponseDTO;
 import com.brayanpv.app.application.service.contracts.IReporteService;
 import com.brayanpv.app.infrastructure.helper.ApiResponseHelper;
@@ -27,9 +27,9 @@ public class ReporteController implements IReporteController {
 
     @Override
     @GetMapping
-    public ResponseEntity<ApiResponse> generarReporte(@RequestParam Long clienteId,
-                                                      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
-                                                      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin) {
+    public ResponseEntity<GenericResponse<ReporteResponseDTO>> generarReporte(@RequestParam Long clienteId,
+                                                          @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
+                                                          @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin) {
 
         log.info("Generando reporte clienteId={}, desde={}, hasta={}", clienteId, fechaInicio, fechaFin);
         if (fechaInicio.isAfter(fechaFin)) {
@@ -37,7 +37,7 @@ public class ReporteController implements IReporteController {
         }
 
         ReporteResponseDTO response = reporteService.generarReporte(clienteId, fechaInicio, fechaFin);
-        ApiResponse apiResponse = ApiResponseHelper.setDataResponse(response);
-        return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
+        GenericResponse<ReporteResponseDTO> genericResponse = ApiResponseHelper.setDataResponse(response);
+        return ResponseEntity.status(HttpStatus.OK).body(genericResponse);
     }
 }
