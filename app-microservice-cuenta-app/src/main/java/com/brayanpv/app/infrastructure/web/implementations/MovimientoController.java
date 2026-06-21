@@ -22,7 +22,7 @@ public class MovimientoController implements IMovimientoController {
     private final IMovimientoService movimientoService;
 
     @Override
-    @PostMapping("/crear")
+    @PostMapping("/create")
     public ResponseEntity<GenericResponse<MovimientoResponseDTO>> create(@RequestBody @Valid MovimientoRequestDTO movimientoRequestDTO) {
         log.info("Iniciando proceso de crear Movimiento");
         MovimientoResponseDTO response = movimientoService.crearMovimiento(movimientoRequestDTO);
@@ -31,8 +31,8 @@ public class MovimientoController implements IMovimientoController {
     }
 
     @Override
-    @GetMapping("/{id}")
-    public ResponseEntity<GenericResponse<MovimientoResponseDTO>> read(@PathVariable Long id) {
+    @GetMapping("/read/{id}")
+    public ResponseEntity<GenericResponse<MovimientoResponseDTO>> read(@PathVariable("id") Long id) {
         log.info("Iniciando proceso de leer Movimiento");
         MovimientoResponseDTO response = movimientoService.readMovimiento(id);
         GenericResponse<MovimientoResponseDTO> genericResponse = ApiResponseHelper.setDataResponse(response);

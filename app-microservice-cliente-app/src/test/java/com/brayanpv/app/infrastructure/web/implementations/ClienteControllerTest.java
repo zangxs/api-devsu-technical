@@ -5,10 +5,8 @@ import com.brayanpv.app.application.dto.response.ClienteResponseDTO;
 import com.brayanpv.app.application.service.contracts.IClienteService;
 import com.brayanpv.app.domain.exception.ClienteNotFoundException;
 import com.brayanpv.app.domain.exception.DuplicateIdentificationException;
-import com.brayanpv.app.domain.model.Cliente;
 import com.brayanpv.app.infrastructure.handle.GlobalExceptionHandler;
 import com.brayanpv.app.mocks.JsonMocksConstants;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,17 +17,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.Mockito.*;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -61,7 +55,7 @@ class ClienteControllerTest {
         ClienteResponseDTO clienteResponseDTO = gson.fromJson(JsonMocksConstants.CREAR_CLIENTE_RESPONSE, ClienteResponseDTO.class);
         Mockito.when(clienteService.crearCliente(clienteRequestDTO)).thenReturn(clienteResponseDTO);
 
-        mockMvc.perform(post("/api/clientes/crear")
+        mockMvc.perform(post("/api/clientes/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(clienteRequestDTO)))
                 .andExpect(status().isCreated())
@@ -78,7 +72,7 @@ class ClienteControllerTest {
         Mockito.when(clienteService.crearCliente(clienteRequestDTO)).thenThrow(new DuplicateIdentificationException(
                 "Ya existe un cliente con identificacion: " + clienteRequestDTO.getIdentificacion()));
 
-        mockMvc.perform(post("/api/clientes/crear")
+        mockMvc.perform(post("/api/clientes/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(clienteRequestDTO)))
                 .andExpect(status().is4xxClientError())
@@ -92,7 +86,7 @@ class ClienteControllerTest {
     void crearClienteBadRequest() throws Exception {
         ClienteRequestDTO clienteRequestDTO = gson.fromJson(JsonMocksConstants.CREAR_REQUEST_BAD, ClienteRequestDTO.class);
 
-        mockMvc.perform(post("/api/clientes/crear")
+        mockMvc.perform(post("/api/clientes/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(clienteRequestDTO)))
                 .andExpect(status().is4xxClientError())
@@ -107,7 +101,7 @@ class ClienteControllerTest {
         ClienteResponseDTO clienteResponseDTO = gson.fromJson(JsonMocksConstants.CREAR_CLIENTE_RESPONSE, ClienteResponseDTO.class);
 
         Mockito.when(clienteService.buscarClientePorId(1L)).thenReturn(clienteResponseDTO);
-        mockMvc.perform(get("/api/clientes/{id}", 1L))
+        mockMvc.perform(get("/api/clientes/read/{id}", 1L))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.nombre").value(clienteResponseDTO.getNombre()))
                 .andExpect(jsonPath("$.data.identificacion").value(clienteResponseDTO.getIdentificacion()));
@@ -119,7 +113,7 @@ class ClienteControllerTest {
     @Test
     void getClienteError() throws Exception {
         Mockito.when(clienteService.buscarClientePorId(1L)).thenThrow(new ClienteNotFoundException("Cliente no encontrado con id"));
-        mockMvc.perform(get("/api/clientes/{id}", 1L))
+        mockMvc.perform(get("/api/clientes/read/{id}", 1L))
                 .andExpect(status().is4xxClientError())
                 .andExpect(jsonPath("$.data").value(containsString("Cliente no encontrado con id")));
 
@@ -130,7 +124,7 @@ class ClienteControllerTest {
     void eliminarClienteOK() throws Exception  {
         doNothing().when(clienteService).eliminarCliente(1L);
 
-        mockMvc.perform(delete("/api/clientes/{id}", 1L))
+        mockMvc.perform(delete("/api/clientes/delete/{id}", 1L))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data").value(containsString("Cliente eliminado con exito")));
 
@@ -144,7 +138,7 @@ class ClienteControllerTest {
         ClienteResponseDTO clienteResponseDTO = gson.fromJson(JsonMocksConstants.ACTUALIZAR_CLIENTE_RESPONSE, ClienteResponseDTO.class);
         Mockito.when(clienteService.actualizarCliente(8L, clienteRequestDTO)).thenReturn(clienteResponseDTO);
 
-        mockMvc.perform(put("/api/clientes/{id}", 8)
+        mockMvc.perform(put("/api/clientes/update/{id}", 8)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(clienteRequestDTO)))
                 .andExpect(status().isOk())

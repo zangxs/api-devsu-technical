@@ -61,19 +61,7 @@ public class ClienteService implements IClienteService {
         String nombreAnterior = existente.getNombre();
         Boolean estadoAnterior = existente.getEstado();
 
-        existente.setNombre(clienteRequestDTO.getNombre());
-        existente.setGenero(clienteRequestDTO.getGenero());
-        existente.setEdad(clienteRequestDTO.getEdad());
-        existente.setIdentificacion(clienteRequestDTO.getIdentificacion());
-        existente.setDireccion(clienteRequestDTO.getDireccion());
-        existente.setTelefono(clienteRequestDTO.getTelefono());
-        if (clienteRequestDTO.getEstado() != null) {
-            existente.setEstado(clienteRequestDTO.getEstado());
-        }
-
-        if (clienteRequestDTO.getPassword() != null && !clienteRequestDTO.getPassword().isBlank()) {
-            existente.setPassword(passwordEncoder.encode(clienteRequestDTO.getPassword()));
-        }
+        settearObject(clienteRequestDTO, existente);
 
         Cliente guardado = clienteRepository.save(existente);
         log.info("Cliente actualizado con id: {}", guardado.getClienteId());
@@ -86,6 +74,33 @@ public class ClienteService implements IClienteService {
 
         return clienteMapper.toResponse(guardado);
 
+    }
+
+    private void settearObject(ClienteRequestDTO clienteRequestDTO, Cliente existente) {
+        if (clienteRequestDTO.getNombre() != null) {
+            existente.setNombre(clienteRequestDTO.getNombre());
+        }
+        if (clienteRequestDTO.getGenero() != null) {
+            existente.setGenero(clienteRequestDTO.getGenero());
+        }
+        if (clienteRequestDTO.getEdad() != null) {
+            existente.setEdad(clienteRequestDTO.getEdad());
+        }
+        if (clienteRequestDTO.getIdentificacion() != null) {
+            existente.setIdentificacion(clienteRequestDTO.getIdentificacion());
+        }
+        if (clienteRequestDTO.getDireccion() != null) {
+            existente.setDireccion(clienteRequestDTO.getDireccion());
+        }
+        if (clienteRequestDTO.getTelefono() != null) {
+            existente.setTelefono(clienteRequestDTO.getTelefono());
+        }
+        if (clienteRequestDTO.getEstado() != null) {
+            existente.setEstado(clienteRequestDTO.getEstado());
+        }
+        if (clienteRequestDTO.getPassword() != null && !clienteRequestDTO.getPassword().isBlank()) {
+            existente.setPassword(passwordEncoder.encode(clienteRequestDTO.getPassword()));
+        }
     }
 
     @Override

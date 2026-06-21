@@ -22,7 +22,7 @@ public class CuentaController implements ICuentaController {
     private final ICuentaService cuentaService;
 
     @Override
-    @PostMapping("/crear")
+    @PostMapping("/create")
     public ResponseEntity<GenericResponse<CuentaResponseDTO>> create(@RequestBody @Valid CuentaRequestDTO cuentaRequestDTO) {
         log.info("Iniciando proceso de crear Cuenta");
         CuentaResponseDTO response = cuentaService.createCuenta(cuentaRequestDTO);
@@ -31,18 +31,18 @@ public class CuentaController implements ICuentaController {
     }
 
     @Override
-    @PutMapping("/{id}")
-    public ResponseEntity<GenericResponse<CuentaResponseDTO>> update(@PathVariable Long id, @RequestBody CuentaRequestDTO cuentaRequestDTO) {
+    @PutMapping("/update/{id}")
+    public ResponseEntity<GenericResponse<CuentaResponseDTO>> update(@PathVariable("id") Long id, @RequestBody CuentaRequestDTO cuentaRequestDTO) {
 
         log.info("Iniciando proceso de actualizar Cuenta");
         CuentaResponseDTO response = cuentaService.updateCuenta(id, cuentaRequestDTO);
         GenericResponse<CuentaResponseDTO> genericResponse = ApiResponseHelper.setDataResponse(response);
-        return ResponseEntity.status(HttpStatus.CREATED).body(genericResponse);
+        return ResponseEntity.status(HttpStatus.OK).body(genericResponse);
     }
 
     @Override
-    @GetMapping("/{id}")
-    public ResponseEntity<GenericResponse<CuentaResponseDTO>> read(@PathVariable Long id) {
+    @GetMapping("/read/{id}")
+    public ResponseEntity<GenericResponse<CuentaResponseDTO>> read(@PathVariable("id") Long id) {
         CuentaResponseDTO response = cuentaService.readCuenta(id);
         GenericResponse<CuentaResponseDTO> genericResponse = ApiResponseHelper.setDataResponse(response);
         return ResponseEntity.status(HttpStatus.OK).body(genericResponse);
