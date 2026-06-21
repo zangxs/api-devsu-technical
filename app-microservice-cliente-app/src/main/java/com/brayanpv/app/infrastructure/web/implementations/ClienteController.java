@@ -34,7 +34,7 @@ public class ClienteController implements IClienteController {
     }
 
     @Override
-    @PostMapping("/crear")
+    @PostMapping("/create")
     public ResponseEntity<GenericResponse<ClienteResponseDTO>> crearCliente(@RequestBody @Valid ClienteRequestDTO clienteRequestDTO) {
         log.info("Iniciando proceso de crear Cliente");
         ClienteResponseDTO response = clienteService.crearCliente(clienteRequestDTO);
@@ -43,8 +43,8 @@ public class ClienteController implements IClienteController {
     }
 
     @Override
-    @PutMapping("/{id}")
-    public ResponseEntity<GenericResponse<ClienteResponseDTO>> actualizarCliente(@PathVariable Long id, @RequestBody ClienteRequestDTO clienteRequestDTO) {
+    @PutMapping("/update/{id}")
+    public ResponseEntity<GenericResponse<ClienteResponseDTO>> actualizarCliente(@PathVariable("id")  Long id, @RequestBody ClienteRequestDTO clienteRequestDTO) {
         log.info("Iniciando proceso de actualizar Cliente");
         ClienteResponseDTO responseDTO = clienteService.actualizarCliente(id, clienteRequestDTO);
         GenericResponse<ClienteResponseDTO>  genericResponse = setDataResponse(responseDTO);
@@ -52,8 +52,8 @@ public class ClienteController implements IClienteController {
     }
 
     @Override
-    @DeleteMapping("/{id}")
-    public ResponseEntity<GenericResponse<String>> eliminarCliente(@PathVariable Long id) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<GenericResponse<String>> eliminarCliente(@PathVariable("id")  Long id) {
         log.info("Iniciando proceso de eliminar Cliente");
         clienteService.eliminarCliente(id);
         GenericResponse<String> genericResponse = setDataResponse("Cliente eliminado con exito");
@@ -61,8 +61,8 @@ public class ClienteController implements IClienteController {
     }
 
     @Override
-    @GetMapping("/{id}")
-    public ResponseEntity<GenericResponse<ClienteResponseDTO>> getCliente(@PathVariable Long id) {
+    @GetMapping("/read/{id}")
+    public ResponseEntity<GenericResponse<ClienteResponseDTO>> getCliente(@PathVariable("id") Long id) {
         log.info("Buscando cliente con id: {}", id);
         ClienteResponseDTO response = clienteService.buscarClientePorId(id);
         GenericResponse<ClienteResponseDTO>  genericResponse = setDataResponse(response);

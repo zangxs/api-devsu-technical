@@ -181,10 +181,15 @@ Cobertura incluida:
 ### Pruebas de integración (Karate)
 
 > (requieren los microservicios corriendo, vía `docker compose up`).
+```bash
+cd karate-tests
+mvn test
+
+```
 
 ### Colección Postman
 
-> Se incluirá en la raíz del repositorio como `postman_collection.json`.
+> Se incluye la collection y el enviroment necesario
 
 ## Decisiones de diseño y aclaraciones
 
